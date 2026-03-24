@@ -38,4 +38,16 @@ public class HashTable {
             actual.next = nuevo;
         }
     }
+    
+    public RegistroImpresion buscar(String clave, Documento doc) {
+        int index = hash(clave);
+        NodoHash actual = tabla[index];
+        while (actual != null) {
+            if (actual.clave.equals(clave) && actual.registro.documento.equals(doc)) {
+                return actual.registro;
+            }
+            actual = actual.next;
+        }
+        return null;
+    }
 }

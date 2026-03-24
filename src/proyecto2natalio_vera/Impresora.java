@@ -4,6 +4,10 @@
  */
 package proyecto2natalio_vera;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  *
  * @author Coco
@@ -20,4 +24,9 @@ public class Impresora {
         tablaDisporcion = new HashTable(1009);
         reloj = 0;
     }
+    
+    public void agregarUsuario(String nombre, String tipo) {
+        usuarios.add(new Usuario(nombre, tipo));
+    }
+    
 }

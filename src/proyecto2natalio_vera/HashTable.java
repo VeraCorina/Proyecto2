@@ -16,4 +16,12 @@ public class HashTable {
         this.capacidad = capacidad;
         this.tabla = new NodoHash[capacidad];
     }
+    
+    private int hash(String clave) {
+        int h = 0;
+        for (int i = 0; i < clave.length(); i++) {
+            h = (31 * h + clave.charAt(i)) % capacidad;
+        }
+        return Math.abs(h);
+    }
 }

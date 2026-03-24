@@ -61,4 +61,12 @@ class MonticuloBinario {
             hundir(minIndex);
         }
     }
+    
+    public void insertar(RegistroImpresion registro) {
+        if (size == heap.length) return;
+        registro.posicionHeap = size;
+        heap[size] = registro;
+        flotar(size);
+        size++;
+    }
 }

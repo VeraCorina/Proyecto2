@@ -112,4 +112,13 @@ public class Impresora {
             tablaDisporcion.insertar(u.nombre, registro);
         }
     }
+    
+    public Documento liberarImpresora() {
+        RegistroImpresion r = colaImpresion.eliminarMin();
+        if (r != null) {
+            r.documento.enCola = false;
+            return r.documento;
+        }
+        return null;
+    }
 }

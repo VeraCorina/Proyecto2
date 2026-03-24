@@ -29,4 +29,22 @@ public class Impresora {
         usuarios.add(new Usuario(nombre, tipo));
     }
     
+    public void cargarUsuariosCSV(String ruta) {
+        try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
+            String linea;
+            boolean primeraLinea = true;
+            while ((linea = br.readLine()) != null) {
+                if (primeraLinea) {
+                    primeraLinea = false;
+                    continue;
+                }
+                String[] datos = linea.split(",");
+                if (datos.length == 2) {
+                    agregarUsuario(datos[0].trim(), datos[1].trim());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

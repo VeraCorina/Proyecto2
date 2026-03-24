@@ -70,4 +70,17 @@ public class Impresora {
             u.documentos.add(new Documento(nombreDoc, tamano, tipo));
         }
     }
+    
+    public void eliminarDocumentoNoEncolado(String nombreUsuario, String nombreDoc) {
+        Usuario u = buscarUsuario(nombreUsuario);
+        if (u != null) {
+            for (int i = 0; i < u.documentos.size(); i++) {
+                Documento d = u.documentos.get(i);
+                if (d.nombre.equals(nombreDoc) && !d.enCola) {
+                    u.documentos.remove(d);
+                    break;
+                }
+            }
+        }
+    }
 }

@@ -50,4 +50,22 @@ public class HashTable {
         }
         return null;
     }
+    
+    public void eliminar(String clave, Documento doc) {
+        int index = hash(clave);
+        NodoHash actual = tabla[index];
+        NodoHash previo = null;
+        while (actual != null) {
+            if (actual.clave.equals(clave) && actual.registro.documento.equals(doc)) {
+                if (previo == null) {
+                    tabla[index] = actual.next;
+                } else {
+                    previo.next = actual.next;
+                }
+                return;
+            }
+            previo = actual;
+            actual = actual.next;
+        }
+    }
 }

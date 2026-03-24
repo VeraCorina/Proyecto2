@@ -83,4 +83,18 @@ class MonticuloBinario {
         hundir(0);
         return root;
     }
+    
+    public void eliminar(int index) {
+        heap[index].etiquetaTiempo = Integer.MIN_VALUE;
+        flotar(index);
+        eliminarMin();
+    }
+    
+    public RegistroImpresion[] getArreglo() {
+        RegistroImpresion[] actual = new RegistroImpresion[size];
+        for (int i = 0; i < size; i++) {
+            actual[i] = heap[i];
+        }
+        return actual;
+    }
 }

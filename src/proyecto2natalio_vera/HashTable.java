@@ -24,4 +24,18 @@ public class HashTable {
         }
         return Math.abs(h);
     }
+    
+    public void insertar(String clave, RegistroImpresion registro) {
+        int index = hash(clave);
+        NodoHash nuevo = new NodoHash(clave, registro);
+        if (tabla[index] == null) {
+            tabla[index] = nuevo;
+        } else {
+            NodoHash actual = tabla[index];
+            while (actual.next != null) {
+                actual = actual.next;
+            }
+            actual.next = nuevo;
+        }
+    }
 }

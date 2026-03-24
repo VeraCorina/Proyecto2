@@ -121,4 +121,27 @@ public class Impresora {
         }
         return null;
     }
+    
+    public void eliminarDocumentoDeCola(String nombreUsuario, String nombreDoc) {
+        Usuario u = buscarUsuario(nombreUsuario);
+        if (u == null) return;
+        
+        Documento target = null;
+        for (int i = 0; i < u.documentos.size(); i++) {
+            Documento d = u.documentos.get(i);
+            if (d.nombre.equals(nombreDoc) && d.enCola) {
+                target = d;
+                break;
+            }
+        }
+        
+        if (target != null) {
+            RegistroImpresion r = tablaDisporcion.buscar(nombreUsuario, target);
+            if (r != null) {
+                colaImpresion.eliminar(r.posicionHeap);
+                tablaDisporcion.eliminar(nombreUsuario, target);
+                target.enCola = false;
+            }
+        }
+    }
 }

@@ -83,4 +83,33 @@ public class Impresora {
             }
         }
     }
+    
+    public void enviarAImprimir(String nombreUsuario, String nombreDoc, boolean prioritario) {
+        Usuario u = buscarUsuario(nombreUsuario);
+        if (u == null) return;
+        
+        Documento target = null;
+        for (int i = 0; i < u.documentos.size(); i++) {
+            Documento d = u.documentos.get(i);
+            if (d.nombre.equals(nombreDoc) && !d.enCola) {
+                target = d;
+                break;
+            }
+        }
+        
+        if (target != null) {
+            reloj++;
+            int etiqueta = reloj;
+            if (prioritario) {
+                if (u.tipo.equals("prioridad_alta")) etiqueta -= 1000;
+                else if (u.tipo.equals("prioridad_media")) etiqueta -= 500;
+                else if (u.tipo.equals("prioridad_baja")) etiqueta -= 100;
+            }
+            
+            target.enCola = true;
+            RegistroImpresion registro = new RegistroImpresion(target, etiqueta);
+            colaImpresion.insertar(registro);
+            tablaDisporcion.insertar(u.nombre, registro);
+        }
+    }
 }

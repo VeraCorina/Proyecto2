@@ -44,4 +44,21 @@ class MonticuloBinario {
             i = padre(i);
         }
     }
+    
+    private void hundir(int i) {
+        int minIndex = i;
+        int izq = hijoIzq(i);
+        int der = hijoDer(i);
+        
+        if (izq < size && heap[izq].etiquetaTiempo < heap[minIndex].etiquetaTiempo) {
+            minIndex = izq;
+        }
+        if (der < size && heap[der].etiquetaTiempo < heap[minIndex].etiquetaTiempo) {
+            minIndex = der;
+        }
+        if (i != minIndex) {
+            swap(i, minIndex);
+            hundir(minIndex);
+        }
+    }
 }

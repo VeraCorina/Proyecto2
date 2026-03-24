@@ -57,5 +57,10 @@ public class Impresora {
         return null;
     }
     
-    
+    public void eliminarUsuario(String nombre) {
+        Usuario u = buscarUsuario(nombre);
+        if (u != null) {
+            usuarios.remove(u);
+        }
+    }
 }

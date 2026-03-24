@@ -144,4 +144,12 @@ public class Impresora {
             }
         }
     }
+    
+    public Lista<Usuario> getUsuarios() {
+        return usuarios;
+    }
+    
+    public RegistroImpresion[] getVistaColaArreglo() {
+        return colaImpresion.getArreglo();
+    }
 }

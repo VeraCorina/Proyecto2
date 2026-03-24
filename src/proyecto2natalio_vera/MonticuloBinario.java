@@ -37,4 +37,11 @@ class MonticuloBinario {
         heap[j] = temp;
         heap[j].posicionHeap = j;
     }
+    
+    private void flotar(int i) {
+        while (i > 0 && heap[padre(i)].etiquetaTiempo > heap[i].etiquetaTiempo) {
+            swap(i, padre(i));
+            i = padre(i);
+        }
+    }
 }

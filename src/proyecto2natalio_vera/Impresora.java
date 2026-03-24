@@ -63,4 +63,11 @@ public class Impresora {
             usuarios.remove(u);
         }
     }
+    
+    public void crearDocumento(String nombreUsuario, String nombreDoc, int tamano, String tipo) {
+        Usuario u = buscarUsuario(nombreUsuario);
+        if (u != null) {
+            u.documentos.add(new Documento(nombreDoc, tamano, tipo));
+        }
+    }
 }

@@ -29,4 +29,12 @@ class MonticuloBinario {
         return 2 * i + 2; 
     }
     
+    
+    private void swap(int i, int j) {
+        RegistroImpresion temp = heap[i];
+        heap[i] = heap[j];
+        heap[i].posicionHeap = i;
+        heap[j] = temp;
+        heap[j].posicionHeap = j;
+    }
 }

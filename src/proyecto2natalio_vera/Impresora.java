@@ -47,4 +47,15 @@ public class Impresora {
             System.out.println(e.getMessage());
         }
     }
+    
+    public Usuario buscarUsuario(String nombre) {
+        for (int i = 0; i < usuarios.size(); i++) {
+            if (usuarios.get(i).nombre.equals(nombre)) {
+                return usuarios.get(i);
+            }
+        }
+        return null;
+    }
+    
+    
 }

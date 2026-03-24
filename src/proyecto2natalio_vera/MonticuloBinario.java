@@ -69,4 +69,18 @@ class MonticuloBinario {
         flotar(size);
         size++;
     }
+    
+    public RegistroImpresion eliminarMin() {
+        if (size <= 0) return null;
+        if (size == 1) {
+            size--;
+            return heap[0];
+        }
+        RegistroImpresion root = heap[0];
+        heap[0] = heap[size - 1];
+        heap[0].posicionHeap = 0;
+        size--;
+        hundir(0);
+        return root;
+    }
 }

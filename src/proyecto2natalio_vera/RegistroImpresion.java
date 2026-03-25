@@ -5,7 +5,8 @@
 package proyecto2natalio_vera;
 
 /**
- *
+ * Clase que junta un documento con su dueño y el tiempo de prioridad.
+ * Se usa para meterlo en el monticulo y la tabla hash.
  * @author natalio
  */
 class RegistroImpresion {

@@ -5,7 +5,7 @@
 package proyecto2natalio_vera;
 
 /**
- *
+ * Representa a un usuario que puede tener muchos documentos.
  * @author natalio
  */
 class Usuario {

@@ -5,7 +5,7 @@
 package proyecto2natalio_vera;
 
 /**
- *
+ * Nodo generico pa la lista enlazada.
  * @author natalio
  */
 class NodoLista<T> {

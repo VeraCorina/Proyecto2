@@ -11,90 +11,96 @@ package proyecto2natalio_vera;
 class MonticuloBinario {
     RegistroImpresion[] heap;
     int size;
-    
+
     public MonticuloBinario(int capacidad) {
         heap = new RegistroImpresion[capacidad];
         size = 0;
     }
-    
+
     private int padre(int i) { 
         return (i - 1) / 2; 
     }
     
     private int hijoIzq(int i) { 
-        return 2 * i + 1;
+        return 2 * i + 1; 
     }
     
     private int hijoDer(int i) { 
         return 2 * i + 2; 
     }
     
-    
+
+    private void asegurarCapacidad() {
+        if (size == heap.length) {
+            RegistroImpresion[] nuevoHeap = new RegistroImpresion[heap.length * 2];
+            System.arraycopy(heap, 0, nuevoHeap, 0, size);
+            heap = nuevoHeap;
+        }
+    }
+
     private void swap(int i, int j) {
         RegistroImpresion temp = heap[i];
         heap[i] = heap[j];
-        heap[i].posicionHeap = i;
         heap[j] = temp;
+        heap[i].posicionHeap = i;
         heap[j].posicionHeap = j;
     }
-    
-    private void flotar(int i) {
+
+    public void flotar(int i) {
         while (i > 0 && heap[padre(i)].etiquetaTiempo > heap[i].etiquetaTiempo) {
             swap(i, padre(i));
             i = padre(i);
         }
     }
-    
+
     private void hundir(int i) {
-        int minIndex = i;
+        int min = i;
         int izq = hijoIzq(i);
         int der = hijoDer(i);
-        
-        if (izq < size && heap[izq].etiquetaTiempo < heap[minIndex].etiquetaTiempo) {
-            minIndex = izq;
-        }
-        if (der < size && heap[der].etiquetaTiempo < heap[minIndex].etiquetaTiempo) {
-            minIndex = der;
-        }
-        if (i != minIndex) {
-            swap(i, minIndex);
-            hundir(minIndex);
+        if (izq < size && heap[izq].etiquetaTiempo < heap[min].etiquetaTiempo) min = izq;
+        if (der < size && heap[der].etiquetaTiempo < heap[min].etiquetaTiempo) min = der;
+        if (min != i) {
+            swap(i, min);
+            hundir(min);
         }
     }
-    
+
     public void insertar(RegistroImpresion registro) {
-        if (size == heap.length) return;
-        registro.posicionHeap = size;
+        asegurarCapacidad();
         heap[size] = registro;
+        registro.posicionHeap = size;
         flotar(size);
         size++;
     }
-    
+
     public RegistroImpresion eliminarMin() {
-        if (size <= 0) return null;
-        if (size == 1) {
-            size--;
-            return heap[0];
-        }
+        if (size == 0) return null;
         RegistroImpresion root = heap[0];
         heap[0] = heap[size - 1];
-        heap[0].posicionHeap = 0;
         size--;
-        hundir(0);
+        if (size > 0) {
+            heap[0].posicionHeap = 0;
+            hundir(0);
+        }
         return root;
     }
-    
-    public void eliminar(int index) {
-        heap[index].etiquetaTiempo = Integer.MIN_VALUE;
-        flotar(index);
-        eliminarMin();
-    }
-    
-    public RegistroImpresion[] getArreglo() {
-        RegistroImpresion[] actual = new RegistroImpresion[size];
-        for (int i = 0; i < size; i++) {
-            actual[i] = heap[i];
+
+    public void eliminarEnPosicion(int index) {
+        if (index < 0 || index >= size) return;
+        if (index == size - 1) {
+            size--;
+            return;
         }
-        return actual;
+        heap[index] = heap[size - 1];
+        heap[index].posicionHeap = index;
+        size--;
+        flotar(index);
+        hundir(index);
+    }
+
+    public RegistroImpresion[] getArreglo() {
+        RegistroImpresion[] copia = new RegistroImpresion[size];
+        System.arraycopy(heap, 0, copia, 0, size);
+        return copia;
     }
 }

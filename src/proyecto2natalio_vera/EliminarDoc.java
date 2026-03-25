@@ -9,14 +9,17 @@ package proyecto2natalio_vera;
  * @author natalio
  */
 public class EliminarDoc extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(EliminarDoc.class.getName());
+    static Impresora impresora;
 
     /**
      * Creates new form EliminarDoc
      */
-    public EliminarDoc() {
+    public EliminarDoc(Impresora i) {
         initComponents();
+        this.setVisible(true);
+        impresora = i;
     }
 
     /**
@@ -28,21 +31,117 @@ public class EliminarDoc extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        pan = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        grafo = new javax.swing.JTextArea();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        nombre = new javax.swing.JTextField();
+        titulo = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pan.setBackground(new java.awt.Color(102, 102, 102));
+        pan.setForeground(new java.awt.Color(102, 102, 102));
+        pan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setBackground(new java.awt.Color(153, 153, 153));
+        jButton1.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Eliminar");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+        pan.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 440, -1, -1));
+
+        grafo.setBackground(new java.awt.Color(153, 153, 153));
+        grafo.setColumns(20);
+        grafo.setFont(new java.awt.Font("Verdana", 2, 18)); // NOI18N
+        grafo.setForeground(new java.awt.Color(255, 255, 255));
+        grafo.setRows(5);
+        jScrollPane1.setViewportView(grafo);
+
+        pan.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 210, -1, 380));
+
+        jButton2.setBackground(new java.awt.Color(153, 153, 153));
+        jButton2.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Regresar");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+        pan.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 20, 160, 40));
+
+        jButton3.setBackground(new java.awt.Color(153, 153, 153));
+        jButton3.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+        pan.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 210, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Verdana", 3, 48)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Eliminar Documento");
+        pan.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Documentos del Usuario:");
+        pan.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 180, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Titulo del Documento:");
+        pan.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, -1, -1));
+
+        nombre.setBackground(new java.awt.Color(153, 153, 153));
+        nombre.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        nombre.setForeground(new java.awt.Color(255, 255, 255));
+        pan.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 270, -1));
+
+        titulo.setBackground(new java.awt.Color(153, 153, 153));
+        titulo.setFont(new java.awt.Font("Verdana", 2, 24)); // NOI18N
+        titulo.setForeground(new java.awt.Color(255, 255, 255));
+        titulo.addActionListener(this::tituloActionPerformed);
+        pan.add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 270, -1));
+
+        jLabel6.setFont(new java.awt.Font("Verdana", 3, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Nombre de usuario:");
+        pan.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, -1, -1));
+
+        getContentPane().add(pan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 640));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String name = this.nombre.getText();
+        String titu = this.titulo.getText();
+        this.nombre.setText("");
+        this.titulo.setText("");
+        impresora.eliminarDocumentoNoEncolado(name, titu);
+        this.grafo.setText(impresora.obtenerDocumentosUsuario(name));
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Menu inter = new Menu(impresora);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String name = this.nombre.getText();
+        this.grafo.setText(impresora.obtenerDocumentosUsuario(name));
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tituloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tituloActionPerformed
 
     /**
      * @param args the command line arguments
@@ -66,9 +165,21 @@ public class EliminarDoc extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new EliminarDoc().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new EliminarDoc(impresora).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea grafo;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField nombre;
+    private javax.swing.JPanel pan;
+    private javax.swing.JTextField titulo;
     // End of variables declaration//GEN-END:variables
 }

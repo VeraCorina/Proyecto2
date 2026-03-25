@@ -4,19 +4,24 @@
  */
 package proyecto2natalio_vera;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author natalio
  */
 public class VerArbol extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VerArbol.class.getName());
+    static Impresora impresora;
 
     /**
      * Creates new form VerArbol
      */
-    public VerArbol() {
+    public VerArbol(Impresora i) {
         initComponents();
+        this.setVisible(true);
+        impresora = i;
     }
 
     /**
@@ -28,21 +33,66 @@ public class VerArbol extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        pan = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        panelArbl = new javax.swing.JPanel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pan.setBackground(new java.awt.Color(102, 102, 102));
+        pan.setForeground(new java.awt.Color(102, 102, 102));
+        pan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton2.setBackground(new java.awt.Color(153, 153, 153));
+        jButton2.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Regresar");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+        pan.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(802, 20, 160, 40));
+
+        jButton3.setBackground(new java.awt.Color(153, 153, 153));
+        jButton3.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("Ver");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+        pan.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 570, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Verdana", 3, 48)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Ver Arbol de Impresion");
+        pan.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, -1, -1));
+        pan.add(panelArbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 870, 400));
+
+        getContentPane().add(pan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 610));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Menu inter = new Menu(impresora);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        RegistroImpresion[] cola = impresora.getVistaColaArreglo();
+        
+        // Obtenemos el panel generado por GraphStream
+        JPanel panelGraphStream = Graficador.obtenerPanelArbol(cola);
+
+        // Limpiamos nuestro contenedor en la interfaz y añadimos el nuevo
+        this.panelArbl.removeAll();
+        this.panelArbl.setLayout(new java.awt.BorderLayout());
+        this.panelArbl.add(panelGraphStream, java.awt.BorderLayout.CENTER);
+
+        // Refrescar la vista
+        this.panelArbl.revalidate();
+        this.panelArbl.repaint();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -66,9 +116,14 @@ public class VerArbol extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VerArbol().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new VerArbol(impresora).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel pan;
+    private javax.swing.JPanel panelArbl;
     // End of variables declaration//GEN-END:variables
 }

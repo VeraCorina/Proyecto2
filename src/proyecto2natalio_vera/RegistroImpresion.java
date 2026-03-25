@@ -10,10 +10,12 @@ package proyecto2natalio_vera;
  */
 class RegistroImpresion {
     Documento documento;
+    String nombreUsuario;
     int etiquetaTiempo;
     int posicionHeap;
-    
-    public RegistroImpresion(Documento documento, int etiquetaTiempo) {
+
+    public RegistroImpresion(String nombreUsuario, Documento documento, int etiquetaTiempo) {
+        this.nombreUsuario = nombreUsuario;
         this.documento = documento;
         this.etiquetaTiempo = etiquetaTiempo;
     }

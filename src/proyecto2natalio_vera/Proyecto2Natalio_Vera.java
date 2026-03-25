@@ -15,6 +15,7 @@ public class Proyecto2Natalio_Vera {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+    Menu m = new Menu(new Impresora());
     }
     
 }

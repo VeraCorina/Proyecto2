@@ -13,6 +13,7 @@ import java.io.IOException;
  * @author Coco
  */
 public class Impresora {
+
     Lista<Usuario> usuarios;
     MonticuloBinario colaImpresion;
     HashTable tablaDisporcion;
@@ -86,7 +87,9 @@ public class Impresora {
 
     public void enviarAImprimir(String nombreUsuario, String nombreDoc, boolean prioritario) {
         Usuario u = buscarUsuario(nombreUsuario);
-        if (u == null) return;
+        if (u == null) {
+            return;
+        }
         Documento target = null;
         for (int i = 0; i < u.documentos.size(); i++) {
             Documento d = u.documentos.get(i);
@@ -99,9 +102,13 @@ public class Impresora {
             reloj++;
             int etiqueta = reloj;
             if (prioritario) {
-                if (u.tipo.equals("prioridad_alta")) etiqueta -= 1000;
-                else if (u.tipo.equals("prioridad_media")) etiqueta -= 500;
-                else if (u.tipo.equals("prioridad_baja")) etiqueta -= 100;
+                if (u.tipo.equals("prioridad_alta")) {
+                    etiqueta -= 1000;
+                } else if (u.tipo.equals("prioridad_media")) {
+                    etiqueta -= 500;
+                } else if (u.tipo.equals("prioridad_baja")) {
+                    etiqueta -= 100;
+                }
             }
             target.enCola = true;
             RegistroImpresion registro = new RegistroImpresion(u.nombre, target, etiqueta);
@@ -121,28 +128,30 @@ public class Impresora {
     }
 
     public void eliminarDocumentoDeCola(String nombreUsuario, String nombreDoc) {
-    Usuario u = buscarUsuario(nombreUsuario);
-    if (u == null) return;
+        Usuario u = buscarUsuario(nombreUsuario);
+        if (u == null) {
+            return;
+        }
 
-    Documento doc = null;
-    for (int i = 0; i < u.documentos.size(); i++) {
-        if (u.documentos.get(i).nombre.equals(nombreDoc)) {
-            doc = u.documentos.get(i);
-            break;
+        Documento doc = null;
+        for (int i = 0; i < u.documentos.size(); i++) {
+            if (u.documentos.get(i).nombre.equals(nombreDoc)) {
+                doc = u.documentos.get(i);
+                break;
+            }
+        }
+
+        if (doc != null && doc.enCola) {
+            RegistroImpresion reg = tablaDisporcion.buscar(nombreUsuario, doc);
+            if (reg != null) {
+                reg.etiquetaTiempo = -999999;
+                colaImpresion.flotar(reg.posicionHeap);
+                colaImpresion.eliminarMin();
+                tablaDisporcion.eliminar(nombreUsuario, doc);
+                doc.enCola = false;
+            }
         }
     }
-
-    if (doc != null && doc.enCola) {
-        RegistroImpresion reg = tablaDisporcion.buscar(nombreUsuario, doc);
-        if (reg != null) {
-            reg.etiquetaTiempo = -999999;
-            colaImpresion.flotar(reg.posicionHeap);
-            colaImpresion.eliminarMin();
-            tablaDisporcion.eliminar(nombreUsuario, doc);
-            doc.enCola = false;
-        }
-    }
-}
 
     public Lista<Usuario> getUsuarios() {
         return usuarios;
@@ -151,4 +160,95 @@ public class Impresora {
     public RegistroImpresion[] getVistaColaArreglo() {
         return colaImpresion.getArreglo();
     }
+
+    public String obtenerDocumentosUsuario(String nombreUsuario) {
+        Usuario u = buscarUsuario(nombreUsuario);
+        if (u == null) {
+            return "Error: El usuario '" + nombreUsuario + "' no existe.";
+        }
+
+        if (u.documentos.size() == 0) {
+            return "El usuario " + nombreUsuario + " no tiene documentos registrados.";
+        }
+
+        String reporte = "Documentos de: " + u.nombre + " (" + u.tipo + ")\n";
+        reporte += "--------------------------------------------------\n";
+
+        for (int i = 0; i < u.documentos.size(); i++) {
+            Documento d = u.documentos.get(i);
+            reporte += "Nombre: " + d.nombre + "\n";
+            reporte += "  - Tamano: " + d.tamano + " paginas\n";
+            reporte += "  - Tipo: " + d.tipo + "\n";
+            reporte += "  - Estado: " + (d.enCola ? "[EN COLA]" : "[DISPONIBLE]") + "\n";
+            reporte += "--------------------------------------------------\n";
+        }
+
+        return reporte;
+    }
+
+    public String mostrarUsuariosYDocumentos() {
+        if (usuarios.size() == 0) {
+            return "No hay usuarios registrados en el sistema.";
+        }
+
+        String reporte = "--- REPORTE GENERAL DE USUARIOS Y DOCUMENTOS ---\n\n";
+
+        for (int i = 0; i < usuarios.size(); i++) {
+            Usuario u = usuarios.get(i);
+            reporte += "USUARIO: " + u.nombre + " [Prioridad: " + u.tipo + "]\n";
+
+            if (u.documentos.size() == 0) {
+                reporte += "  (Sin documentos registrados)\n";
+            } else {
+                for (int j = 0; j < u.documentos.size(); j++) {
+                    Documento d = u.documentos.get(j);
+                    reporte += "  - " + d.nombre + " (" + d.tipo + ") -> " + (d.enCola ? "EN COLA" : "DISPONIBLE") + "\n";
+                }
+            }
+            reporte += "--------------------------------------------------\n";
+        }
+        return reporte;
+    }
+
+    public String mostrarListaUsuariosPrioridad() {
+        if (usuarios.size() == 0) {
+            return "No hay usuarios registrados.";
+        }
+
+        String lista = "--- LISTA DE USUARIOS REGISTRADOS ---\n";
+        lista += "NOMBRE\t\tPRIORIDAD\n";
+        lista += "-------------------------------------\n";
+
+        for (int i = 0; i < usuarios.size(); i++) {
+            Usuario u = usuarios.get(i);
+            lista += u.nombre + "\t\t" + u.tipo + "\n";
+        }
+
+        return lista;
+    }
+    
+    public String mostrarColaEspera() {
+    RegistroImpresion[] cola = colaImpresion.getArreglo();
+    
+    if (cola.length == 0) {
+        return "La cola de impresion esta vacia.";
+    }
+
+    String reporte = "--- COLA DE IMPRESION ACTUAL (Orden de Prioridad) ---\n";
+    reporte += "POS\tUSUARIO\t\tDOCUMENTO\t\tETIQUETA\n";
+    reporte += "------------------------------------------------------------\n";
+
+    for (int i = 0; i < cola.length; i++) {
+        RegistroImpresion reg = cola[i];
+        reporte += (i + 1) + "\t" + 
+                   reg.nombreUsuario + "\t\t" + 
+                   reg.documento.nombre + "\t\t" + 
+                   reg.etiquetaTiempo + "\n";
+    }
+    
+    reporte += "------------------------------------------------------------\n";
+    reporte += "Total de documentos en espera: " + cola.length;
+    
+    return reporte;
+}
 }

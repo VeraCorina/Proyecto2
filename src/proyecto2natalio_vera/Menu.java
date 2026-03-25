@@ -4,6 +4,11 @@
  */
 package proyecto2natalio_vera;
 
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author natalio
@@ -11,12 +16,14 @@ package proyecto2natalio_vera;
 public class Menu extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Menu.class.getName());
-
+    static Impresora impresora;
     /**
      * Creates new form Menu
      */
-    public Menu() {
+    public Menu(Impresora i) {
         initComponents();
+        this.setVisible(true);
+        impresora = i;
     }
 
     /**
@@ -28,21 +35,166 @@ public class Menu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        pan = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pan.setBackground(new java.awt.Color(102, 102, 102));
+        pan.setForeground(new java.awt.Color(102, 102, 102));
+        pan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setBackground(new java.awt.Color(153, 153, 153));
+        jButton1.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Ver Arbol");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+        pan.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 620, -1, -1));
+
+        jButton3.setBackground(new java.awt.Color(153, 153, 153));
+        jButton3.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("CSV");
+        jButton3.addActionListener(this::jButton3ActionPerformed);
+        pan.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Verdana", 3, 48)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("MENU ");
+        pan.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 70, -1, -1));
+
+        jButton4.setBackground(new java.awt.Color(153, 153, 153));
+        jButton4.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Agregar Documeto");
+        jButton4.addActionListener(this::jButton4ActionPerformed);
+        pan.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 280, -1, -1));
+
+        jButton5.setBackground(new java.awt.Color(153, 153, 153));
+        jButton5.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Agregar Usuario");
+        jButton5.addActionListener(this::jButton5ActionPerformed);
+        pan.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, -1, -1));
+
+        jButton6.setBackground(new java.awt.Color(153, 153, 153));
+        jButton6.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("Eliminar Documento");
+        jButton6.addActionListener(this::jButton6ActionPerformed);
+        pan.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 400, -1, -1));
+
+        jButton7.setBackground(new java.awt.Color(153, 153, 153));
+        jButton7.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("Cancelar Impresion");
+        jButton7.addActionListener(this::jButton7ActionPerformed);
+        pan.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 460, -1, -1));
+
+        jButton8.setBackground(new java.awt.Color(153, 153, 153));
+        jButton8.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("Eliminar Usuario");
+        jButton8.addActionListener(this::jButton8ActionPerformed);
+        pan.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 520, -1, -1));
+
+        jButton2.setBackground(new java.awt.Color(153, 153, 153));
+        jButton2.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Imprimir Documento");
+        jButton2.addActionListener(this::jButton2ActionPerformed);
+        pan.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 580, -1, -1));
+
+        jButton9.setBackground(new java.awt.Color(153, 153, 153));
+        jButton9.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setText("Liberar Cola");
+        jButton9.addActionListener(this::jButton9ActionPerformed);
+        pan.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 630, -1, -1));
+
+        getContentPane().add(pan, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 740));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        VerArbol v = new VerArbol(impresora);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+
+    JFileChooser fileChooser = new JFileChooser();
+    
+    FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos CSV", "csv");
+    fileChooser.setFileFilter(filtro);
+    
+    int seleccion = fileChooser.showOpenDialog(this);
+    
+    if (seleccion == JFileChooser.APPROVE_OPTION) {
+        File archivoSeleccionado = fileChooser.getSelectedFile();
+        String ruta = archivoSeleccionado.getAbsolutePath();
+        
+        impresora.cargarUsuariosCSV(ruta);
+        
+        JOptionPane.showMessageDialog(this, "Archivo cargado exitosamente: " + archivoSeleccionado.getName(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        AgregarDocumento a = new AgregarDocumento(impresora);
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        AgregarUsuario a = new AgregarUsuario(impresora);
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        EliminarDoc a = new EliminarDoc(impresora);
+        this.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        EliminarImpresora a = new EliminarImpresora(impresora);
+        this.dispose();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        EliminarUsuario a = new EliminarUsuario(impresora);
+        this.dispose();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+       ImprimirDoc a = new ImprimirDoc(impresora);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        LiberarCola a = new LiberarCola(impresora);
+        this.dispose();
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -66,9 +218,20 @@ public class Menu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Menu().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new Menu(impresora).setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel pan;
     // End of variables declaration//GEN-END:variables
 }

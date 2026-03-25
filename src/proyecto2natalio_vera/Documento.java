@@ -20,4 +20,11 @@ class Documento {
         this.tipo = tipo;
         this.enCola = false;
     }
+    
+    @Override
+    public String toString() {
+        return "DOCUMENTO [" + nombre + "]\n" +
+               "  > Tipo: " + tipo + "\n" +
+               "  > Tamaño: " + tamano + " páginas";
+    }
 }

@@ -17,18 +17,18 @@ public class Impresora {
     MonticuloBinario colaImpresion;
     HashTable tablaDisporcion;
     int reloj;
-    
+
     public Impresora() {
         usuarios = new Lista<>();
-        colaImpresion = new MonticuloBinario(1000);
+        colaImpresion = new MonticuloBinario(100);
         tablaDisporcion = new HashTable(1009);
         reloj = 0;
     }
-    
+
     public void agregarUsuario(String nombre, String tipo) {
         usuarios.add(new Usuario(nombre, tipo));
     }
-    
+
     public void cargarUsuariosCSV(String ruta) {
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
             String linea;
@@ -47,7 +47,7 @@ public class Impresora {
             System.out.println(e.getMessage());
         }
     }
-    
+
     public Usuario buscarUsuario(String nombre) {
         for (int i = 0; i < usuarios.size(); i++) {
             if (usuarios.get(i).nombre.equals(nombre)) {
@@ -56,21 +56,21 @@ public class Impresora {
         }
         return null;
     }
-    
+
     public void eliminarUsuario(String nombre) {
         Usuario u = buscarUsuario(nombre);
         if (u != null) {
             usuarios.remove(u);
         }
     }
-    
+
     public void crearDocumento(String nombreUsuario, String nombreDoc, int tamano, String tipo) {
         Usuario u = buscarUsuario(nombreUsuario);
         if (u != null) {
             u.documentos.add(new Documento(nombreDoc, tamano, tipo));
         }
     }
-    
+
     public void eliminarDocumentoNoEncolado(String nombreUsuario, String nombreDoc) {
         Usuario u = buscarUsuario(nombreUsuario);
         if (u != null) {
@@ -83,11 +83,10 @@ public class Impresora {
             }
         }
     }
-    
+
     public void enviarAImprimir(String nombreUsuario, String nombreDoc, boolean prioritario) {
         Usuario u = buscarUsuario(nombreUsuario);
         if (u == null) return;
-        
         Documento target = null;
         for (int i = 0; i < u.documentos.size(); i++) {
             Documento d = u.documentos.get(i);
@@ -96,7 +95,6 @@ public class Impresora {
                 break;
             }
         }
-        
         if (target != null) {
             reloj++;
             int etiqueta = reloj;
@@ -105,50 +103,51 @@ public class Impresora {
                 else if (u.tipo.equals("prioridad_media")) etiqueta -= 500;
                 else if (u.tipo.equals("prioridad_baja")) etiqueta -= 100;
             }
-            
             target.enCola = true;
-            RegistroImpresion registro = new RegistroImpresion(target, etiqueta);
+            RegistroImpresion registro = new RegistroImpresion(u.nombre, target, etiqueta);
             colaImpresion.insertar(registro);
             tablaDisporcion.insertar(u.nombre, registro);
         }
     }
-    
+
     public Documento liberarImpresora() {
         RegistroImpresion r = colaImpresion.eliminarMin();
         if (r != null) {
+            tablaDisporcion.eliminar(r.nombreUsuario, r.documento);
             r.documento.enCola = false;
             return r.documento;
         }
         return null;
     }
-    
+
     public void eliminarDocumentoDeCola(String nombreUsuario, String nombreDoc) {
-        Usuario u = buscarUsuario(nombreUsuario);
-        if (u == null) return;
-        
-        Documento target = null;
-        for (int i = 0; i < u.documentos.size(); i++) {
-            Documento d = u.documentos.get(i);
-            if (d.nombre.equals(nombreDoc) && d.enCola) {
-                target = d;
-                break;
-            }
-        }
-        
-        if (target != null) {
-            RegistroImpresion r = tablaDisporcion.buscar(nombreUsuario, target);
-            if (r != null) {
-                colaImpresion.eliminar(r.posicionHeap);
-                tablaDisporcion.eliminar(nombreUsuario, target);
-                target.enCola = false;
-            }
+    Usuario u = buscarUsuario(nombreUsuario);
+    if (u == null) return;
+
+    Documento doc = null;
+    for (int i = 0; i < u.documentos.size(); i++) {
+        if (u.documentos.get(i).nombre.equals(nombreDoc)) {
+            doc = u.documentos.get(i);
+            break;
         }
     }
-    
+
+    if (doc != null && doc.enCola) {
+        RegistroImpresion reg = tablaDisporcion.buscar(nombreUsuario, doc);
+        if (reg != null) {
+            reg.etiquetaTiempo = -999999;
+            colaImpresion.flotar(reg.posicionHeap);
+            colaImpresion.eliminarMin();
+            tablaDisporcion.eliminar(nombreUsuario, doc);
+            doc.enCola = false;
+        }
+    }
+}
+
     public Lista<Usuario> getUsuarios() {
         return usuarios;
     }
-    
+
     public RegistroImpresion[] getVistaColaArreglo() {
         return colaImpresion.getArreglo();
     }

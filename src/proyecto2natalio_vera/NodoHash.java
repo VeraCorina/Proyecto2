@@ -5,7 +5,7 @@
 package proyecto2natalio_vera;
 
 /**
- *
+ * Nodo pa la tabla hash con puntero al siguiente por si hay colicion.
  * @author natalio
  */
 class NodoHash {

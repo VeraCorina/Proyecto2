@@ -7,9 +7,9 @@ package proyecto2natalio_vera;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
 /**
- *
+ * Esta es la clase que controla todo el sistema de la impresora.
+ * Une los usuarios, la cola de impresion y la tabla hash.
  * @author Coco
  */
 public class Impresora {
@@ -19,6 +19,9 @@ public class Impresora {
     HashTable tablaDisporcion;
     int reloj;
 
+    /**
+     * Inicialisa todas las estructuras de datos del sistema.
+     */
     public Impresora() {
         usuarios = new Lista<>();
         colaImpresion = new MonticuloBinario(100);
@@ -26,10 +29,19 @@ public class Impresora {
         reloj = 0;
     }
 
+    /**
+     * Registra un usuario nuevo en la lista.
+     * @param nombre Como se llama la persona.
+     * @param tipo Su prioridad (alta, media o baja).
+     */
     public void agregarUsuario(String nombre, String tipo) {
         usuarios.add(new Usuario(nombre, tipo));
     }
 
+    /**
+     * Lee un archivo de texto pa cargar usuarios mas rapido.
+     * @param ruta Donde esta el archivo en la compu.
+     */
     public void cargarUsuariosCSV(String ruta) {
         try (BufferedReader br = new BufferedReader(new FileReader(ruta))) {
             String linea;
@@ -49,6 +61,11 @@ public class Impresora {
         }
     }
 
+    /**
+     * Busca un usuario por su nombre.
+     * @param nombre El nombre que buscamos.
+     * @return El objeto usuario o null si no se halla.
+     */
     public Usuario buscarUsuario(String nombre) {
         for (int i = 0; i < usuarios.size(); i++) {
             if (usuarios.get(i).nombre.equals(nombre)) {
@@ -58,6 +75,10 @@ public class Impresora {
         return null;
     }
 
+    /**
+     * Saca a un usuario del sistema pero no borra sus docs de la cola.
+     * @param nombre Quien se va.
+     */
     public void eliminarUsuario(String nombre) {
         Usuario u = buscarUsuario(nombre);
         if (u != null) {
@@ -65,6 +86,13 @@ public class Impresora {
         }
     }
 
+    /**
+     * Crea un doc nuevo pa un usuario espesifico.
+     * @param nombreUsuario Dueño del doc.
+     * @param nombreDoc Nombre del archivo.
+     * @param tamano Cuantas pajinas.
+     * @param tipo Extension del doc.
+     */
     public void crearDocumento(String nombreUsuario, String nombreDoc, int tamano, String tipo) {
         Usuario u = buscarUsuario(nombreUsuario);
         if (u != null) {
@@ -72,6 +100,11 @@ public class Impresora {
         }
     }
 
+    /**
+     * Borra un doc que todavia no se ha mandado a imprimir.
+     * @param nombreUsuario Del usuario.
+     * @param nombreDoc Del documento.
+     */
     public void eliminarDocumentoNoEncolado(String nombreUsuario, String nombreDoc) {
         Usuario u = buscarUsuario(nombreUsuario);
         if (u != null) {
@@ -85,6 +118,12 @@ public class Impresora {
         }
     }
 
+    /**
+     * Manda un documento a la cola de impresion calculando su tiempo.
+     * @param nombreUsuario Quien lo manda.
+     * @param nombreDoc Que manda.
+     * @param prioritario Si quiere usar su prioridad de usuario.
+     */
     public void enviarAImprimir(String nombreUsuario, String nombreDoc, boolean prioritario) {
         Usuario u = buscarUsuario(nombreUsuario);
         if (u == null) {
@@ -117,6 +156,10 @@ public class Impresora {
         }
     }
 
+    /**
+     * Saca el documento con mas prioridad de la cola (el menor tiempo).
+     * @return El documento que se acaba de imprimir.
+     */
     public Documento liberarImpresora() {
         RegistroImpresion r = colaImpresion.eliminarMin();
         if (r != null) {
@@ -127,6 +170,11 @@ public class Impresora {
         return null;
     }
 
+    /**
+     * Elimina un documento que ya esta en la cola usando el truco de la etiqueta infinita.
+     * @param nombreUsuario Dueño.
+     * @param nombreDoc Nombre del archivo.
+     */
     public void eliminarDocumentoDeCola(String nombreUsuario, String nombreDoc) {
         Usuario u = buscarUsuario(nombreUsuario);
         if (u == null) {
@@ -153,14 +201,25 @@ public class Impresora {
         }
     }
 
+    /**
+     * @return Devuelve la lista de usuarios del sistema.
+     */
     public Lista<Usuario> getUsuarios() {
         return usuarios;
     }
 
+    /**
+     * @return El arreglo con los documentos en espera pal grafico o tablas.
+     */
     public RegistroImpresion[] getVistaColaArreglo() {
         return colaImpresion.getArreglo();
     }
 
+    /**
+     * Crea un reporte de texto de los documentos de un usuario.
+     * @param nombreUsuario Nombre del pana.
+     * @return El string pal area de texto.
+     */
     public String obtenerDocumentosUsuario(String nombreUsuario) {
         Usuario u = buscarUsuario(nombreUsuario);
         if (u == null) {
@@ -186,6 +245,10 @@ public class Impresora {
         return reporte;
     }
 
+    /**
+     * Muesta todo lo que hay en el sistema.
+     * @return El reporte gigante.
+     */
     public String mostrarUsuariosYDocumentos() {
         if (usuarios.size() == 0) {
             return "No hay usuarios registrados en el sistema.";
@@ -210,6 +273,9 @@ public class Impresora {
         return reporte;
     }
 
+    /**
+     * @return Texto con solo usuarios y sus rangos.
+     */
     public String mostrarListaUsuariosPrioridad() {
         if (usuarios.size() == 0) {
             return "No hay usuarios registrados.";
@@ -227,28 +293,31 @@ public class Impresora {
         return lista;
     }
     
+    /**
+     * @return El estado de la cola de espera en texto.
+     */
     public String mostrarColaEspera() {
-    RegistroImpresion[] cola = colaImpresion.getArreglo();
-    
-    if (cola.length == 0) {
-        return "La cola de impresion esta vacia.";
-    }
+        RegistroImpresion[] cola = colaImpresion.getArreglo();
+        
+        if (cola.length == 0) {
+            return "La cola de impresion esta vacia.";
+        }
 
-    String reporte = "--- COLA DE IMPRESION ACTUAL (Orden de Prioridad) ---\n";
-    reporte += "POS\tUSUARIO\t\tDOCUMENTO\t\tETIQUETA\n";
-    reporte += "------------------------------------------------------------\n";
+        String reporte = "--- COLA DE IMPRESION ACTUAL (Orden de Prioridad) ---\n";
+        reporte += "POS\tUSUARIO\t\tDOCUMENTO\t\tETIQUETA\n";
+        reporte += "------------------------------------------------------------\n";
 
-    for (int i = 0; i < cola.length; i++) {
-        RegistroImpresion reg = cola[i];
-        reporte += (i + 1) + "\t" + 
-                   reg.nombreUsuario + "\t\t" + 
-                   reg.documento.nombre + "\t\t" + 
-                   reg.etiquetaTiempo + "\n";
+        for (int i = 0; i < cola.length; i++) {
+            RegistroImpresion reg = cola[i];
+            reporte += (i + 1) + "\t" + 
+                       reg.nombreUsuario + "\t\t" + 
+                       reg.documento.nombre + "\t\t" + 
+                       reg.etiquetaTiempo + "\n";
+        }
+        
+        reporte += "------------------------------------------------------------\n";
+        reporte += "Total de documentos en espera: " + cola.length;
+        
+        return reporte;
     }
-    
-    reporte += "------------------------------------------------------------\n";
-    reporte += "Total de documentos en espera: " + cola.length;
-    
-    return reporte;
-}
 }
